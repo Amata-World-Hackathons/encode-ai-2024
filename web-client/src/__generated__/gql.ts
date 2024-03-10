@@ -19,6 +19,7 @@ const documents = {
     "\nmutation UpdateProjectWithMeshMutation($projectId: String!, $assetId: String!) {\n    project {\n        updateMeshAsset(input: { projectId: $projectId, assetId: $assetId }) {\n            id\n        }\n    }\n}\n": types.UpdateProjectWithMeshMutationDocument,
     "\nmutation UpdateProjectDataMutation($projectId: String!, $title: String!, $backstoryPages: [String!]!) {\n    project {\n        updateProjectData(input: { projectId: $projectId, title: $title, backstoryPages: $backstoryPages }) {\n            id\n        }\n    }\n}\n": types.UpdateProjectDataMutationDocument,
     "\nquery GetProjectQuery($id: String!) {\n    project(id: $id) {\n        id\n        title\n        meshId\n        creator\n        backstoryPages\n    }\n}": types.GetProjectQueryDocument,
+    "\nquery GetAssetForProjectQuery($id: String!) {\n    asset(id: $id) {\n      id\n      url\n      sourceUrl\n      thumbnailUrl\n    }\n}": types.GetAssetForProjectQueryDocument,
     "\nmutation CreateProjectMutation($creator: String!) {\n    project {\n        create(input: { creator: $creator}) {\n            id\n        }\n    }\n}": types.CreateProjectMutationDocument,
 };
 
@@ -60,6 +61,10 @@ export function gql(source: "\nmutation UpdateProjectDataMutation($projectId: St
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\nquery GetProjectQuery($id: String!) {\n    project(id: $id) {\n        id\n        title\n        meshId\n        creator\n        backstoryPages\n    }\n}"): (typeof documents)["\nquery GetProjectQuery($id: String!) {\n    project(id: $id) {\n        id\n        title\n        meshId\n        creator\n        backstoryPages\n    }\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\nquery GetAssetForProjectQuery($id: String!) {\n    asset(id: $id) {\n      id\n      url\n      sourceUrl\n      thumbnailUrl\n    }\n}"): (typeof documents)["\nquery GetAssetForProjectQuery($id: String!) {\n    asset(id: $id) {\n      id\n      url\n      sourceUrl\n      thumbnailUrl\n    }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

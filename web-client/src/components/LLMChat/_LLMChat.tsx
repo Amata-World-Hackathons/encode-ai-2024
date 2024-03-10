@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import placeholderAI from "@assets/images/placeholder_ai.jpeg";
 import placeholderUser from "@assets/images/profile-placeholder.webp";
 import { Loader } from "@components/Loader";
+import { useForm } from "react-hook-form";
 
 export interface LLMChatProps {
   name: string;
@@ -19,6 +20,13 @@ export const _LLMChat = ({
   avatarUrl,
   className,
 }: LLMChatProps) => {
+  const { register, handleSubmit, reset, watch } = useForm({
+    defaultValues: {
+      message: "",
+    },
+  });
+  const message = watch("message");
+
   const [chat, setChat] = useState<webllm.ChatModule | undefined>();
   const chatRef = useRef(chat);
   chatRef.current = chat;
@@ -55,7 +63,7 @@ export const _LLMChat = ({
           `
           ${preprompt}
 
-          How are you?
+          ${message}
           `,
           (step, message) => {
             console.log("step", step);
@@ -115,7 +123,9 @@ export const _LLMChat = ({
           <div className="chat-image avatar">
             <div className="w-10 h-10 rounded-full">
               <img
-                src={user ? placeholderUser.src : placeholderAI.src}
+                src={
+                  user ? placeholderUser.src : avatarUrl || placeholderAI.src
+                }
                 alt={user ? "user profile pic" : name}
               />
             </div>
@@ -134,7 +144,7 @@ export const _LLMChat = ({
         <div className="chat chat-start">
           <div className="chat-image avatar">
             <div className="w-10 h-10 rounded-full">
-              <img src={placeholderAI.src} alt={name} />
+              <img src={avatarUrl || placeholderAI.src} alt={name} />
             </div>
           </div>
 
@@ -147,6 +157,25 @@ export const _LLMChat = ({
           <div className="chat-footer opacity-50">Typing</div>
         </div>
       ) : null}
+
+      <form
+        onSubmit={(ev) => {
+          handleSubmit(({ message }) => {
+            reset();
+            sendMessage(message);
+          })(ev).catch((err) => console.error(err));
+        }}
+        className="join w-full mt-8"
+      >
+        <textarea
+          rows={1}
+          className="input input-bordered join-item flex-1"
+          {...register("message")}
+        />
+        <button className="btn join-item rounded-r-full" disabled={!message}>
+          Send
+        </button>
+      </form>
     </div>
   );
 };

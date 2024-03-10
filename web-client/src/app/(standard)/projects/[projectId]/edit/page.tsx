@@ -19,12 +19,29 @@ query GetProjectQuery($id: String!) {
     }
 }`);
 
+const ASSET_QUERY = gql(`
+query GetAssetForProjectQuery($id: String!) {
+    asset(id: $id) {
+      id
+      url
+      sourceUrl
+      thumbnailUrl
+    }
+}`);
+
 export default function EditProjectPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const result = useQuery(PROJECT_QUERY, {
     variables: {
       id: projectId,
     },
+  });
+
+  const assetResult = useQuery(ASSET_QUERY, {
+    variables: {
+      id: result.data?.project.meshId || "",
+    },
+    skip: !result.data,
   });
 
   if (result.loading) return <Loader />;
@@ -63,12 +80,20 @@ export default function EditProjectPage() {
       <section className="py-8">
         <h2 className="text-center text-xl">Chat with {project.title}</h2>
 
-        <LLMChat
-          avatarUrl=""
-          name={project.title}
-          backstory={project.backstoryPages[0]}
-          className="w-full max-w-2xl mx-auto"
-        />
+        {project.backstoryPages.length === 0 ? (
+          <div className="bg-base-200 rounded-lg p-4">
+            <p className="text-center text-xl">
+              Add a backstory to enable chat
+            </p>
+          </div>
+        ) : (
+          <LLMChat
+            avatarUrl={assetResult.data?.asset.sourceUrl}
+            name={project.title}
+            backstory={project.backstoryPages[0]}
+            className="w-full max-w-2xl mx-auto"
+          />
+        )}
       </section>
     </div>
   );
