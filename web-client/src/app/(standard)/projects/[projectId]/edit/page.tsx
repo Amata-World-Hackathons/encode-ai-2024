@@ -58,9 +58,18 @@ export default function EditProjectPage() {
         />
       </section>
 
-      {/* <section>
-        <LLMChat />
-      </section> */}
+      <div className="h-[1px] bg-base-300 mx-auto w-full max-w-7xl"></div>
+
+      <section className="py-8">
+        <h2 className="text-center text-xl">Chat with {project.title}</h2>
+
+        <LLMChat
+          avatarUrl=""
+          name={project.title}
+          backstory={project.backstoryPages[0]}
+          className="w-full max-w-2xl mx-auto"
+        />
+      </section>
     </div>
   );
 }

@@ -23,12 +23,18 @@ uvicorn main:app
 celery -A tasks worker --concurrency=1 # optional, but keeps things in check while running the LLMs
 ```
 
+Don't forget to initialize the submodule or the code might not work
+
+### System dependencies:
+
+- You will need a free account on MongoDB to connect to a database
 
 ## Future considerations
 
 - Embedding the LLM in the FE was not complete, loading the model could not be
-  done reliably on a mobile connection. This would take advantage of the name
-  and backstory information provided
+  done reliably on a mobile connection, and there wasn't a suitable way to
+  handle longer backstories. The functionality is available on desktop (with
+  some patience)
 - The basic navigation of the website exists, but most pages are empty. This
   needs to be filled out for a full experience
 - Integration with the Stability AI API for things like image-to-image, or

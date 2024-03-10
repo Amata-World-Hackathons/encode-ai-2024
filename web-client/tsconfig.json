@@ -34,6 +34,9 @@
       "@hooks/*": [
         "./src/hooks/*"
       ],
+      "@assets/*": [
+        "./src/assets/*"
+      ],
       "@generated/*": [
         "./src/__generated__/*"
       ]
