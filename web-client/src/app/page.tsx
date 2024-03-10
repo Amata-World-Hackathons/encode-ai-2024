@@ -1,9 +1,13 @@
 import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div>
-      <h1>Create a character</h1>
+      <h1>The ARk Project</h1>
+
+      <Link href="/explore" className="btn btn-primary">
+        Explore
+      </Link>
 
       <Link href="/characters/create" className="btn btn-primary">
         Start here

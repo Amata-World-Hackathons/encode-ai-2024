@@ -1,11 +1,11 @@
 name: encodeai2024
 channels:
-  - defaults
   - conda-forge
+  - defaults
 dependencies:
   - einops=0.7.0
   - huggingface_hub
-  - imageio
+  - imageio[ffmpeg]
   - omegaconf=2.3.0
   - pillow=10.1.0
   - pip
@@ -20,3 +20,7 @@ dependencies:
   - torchvision
   - accelerate
   - diffusers
+  - uvicorn[standard]
+  - fastapi
+  - celery[redis]
+  - strawberry-graphql
